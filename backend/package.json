@@ -1,0 +1,15 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Pizza Delivery App backend prgram",
+  "main": "App.js",
+  "scripts": {
+    "test": "nodemon App.js"
+  },
+  "author": "Felix Mathew",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^6.0.14"
+  }
+}
