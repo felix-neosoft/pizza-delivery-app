@@ -62,6 +62,7 @@ function Checkout(props) {
                     <Navbar.Brand href="#"><img alt="logo-img" width="80" src="images/gui/logo.svg"/></Navbar.Brand>
                     <Nav className="justify-content-end me-5">
                         <Nav.Link href="/dashboard">Menu</Nav.Link>
+                        <Nav.Link href="/order">Order</Nav.Link>
                         <Nav.Link className="cart-quantity" href="/cart">Cart<sup>{quantity}</sup></Nav.Link>
                         <Nav.Link href="/profile">Profile</Nav.Link>
                         <Nav.Link onClick={logout}>Logout</Nav.Link>

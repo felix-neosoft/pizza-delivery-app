@@ -81,7 +81,7 @@ function Login(props) {
 
                 <Form.Group className="mb-3 form-insert">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="text" name="password" ref={passwordRef} isValid={values.password!==''?true:false} isInvalid={errors.password!==''?true:false} onChange={e => handler(e)}></Form.Control>
+                    <Form.Control type="password" name="password" ref={passwordRef} isValid={values.password!==''?true:false} isInvalid={errors.password!==''?true:false} onChange={e => handler(e)}></Form.Control>
                     <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
                 </Form.Group>
                 <a className="btn-index-change" href="/register" >Not a User? Sign Up</a>  

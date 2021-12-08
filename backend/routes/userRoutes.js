@@ -100,9 +100,21 @@ Router.post('/orderplace',(req,res)=>{
 })
 
 Router.post('/deleteuser',(req,res)=>{
-    userModel.deleteOne({email:req.body.email},err=>{
-        if(err) { res.json({"msg":"Delete Operation Failed"})}
-        else{ res.json({"msg":`User Account Deleted: ${req.body.email}`})}
+    userModel.deleteOne({email:req.body.email},usererr=>{
+        if(usererr) { res.json({"msg":"Delete Operation Failed"})}
+        orderModel.deleteMany({email:req.body.email},ordererr=>{
+            if(ordererr) { res.json({"msg":"Delete Operation Failed"})}
+            else{ res.json({"msg":`User Account Deleted: ${req.body.email}`})}
+        })
+    })
+})
+
+Router.post('/fetchorder',(req,res)=>{
+    orderModel.find({email:req.body.email},(err,data)=>{
+        if(err) throw err
+        console.log(data)
+        console.log(req.body.email)
+        res.json({"data":data})
     })
 })
 

@@ -46,7 +46,7 @@ function Profile() {
         setQuantity(num)
     },[])
 
-    const deleteUser = () =>{
+    const  deleteUser =() =>{
         deleteuser({"email":user.email}).then(res =>{
             alert(res.data.msg)
             logout()

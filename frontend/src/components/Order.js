@@ -1,12 +1,12 @@
 import React,{useState,useEffect} from 'react'
 import {Navbar, Container, Nav, Table, Card} from 'react-bootstrap'
-import { tokenAuthenticate } from '../config/NodeServices'
+import { orderfetch, tokenAuthenticate } from '../config/NodeServices'
+import jwt_decode from 'jwt-decode'
 
 
-function Cart() {
-    const [products,setProducts] = useState(JSON.parse(sessionStorage.getItem('cart')) || [])
-    const [quantity,setQuantity] = useState(0)
-    const [sum,setSum] = useState(0)
+function Order() {
+    const [products,setProducts] = useState([])
+    const [sum,setSum] = useState([])
 
     useEffect(()=>{
         tokenAuthenticate().then(res =>{
@@ -15,24 +15,26 @@ function Cart() {
             }
         })
 
-        let num = 0
+        if(sessionStorage.getItem('_token')!==undefined){
+            const token = sessionStorage.getItem('_token')
+            const decode = jwt_decode(token)
+            orderfetch({"email":decode.uid}).then(res =>{
+                const arr = []
+                const ps = []
+                res.data.data.forEach(ele =>{
+                    arr.push(JSON.parse(ele.order))
+                    ps.push(ele.price)
+                })
+                setSum(ps)
+                setProducts(arr)
+            })
+        } 
         let total = 0
         products.forEach(index=>{
-            num+=index.quantity
             total = total + (index.quantity * index.price)
         })
-        setQuantity(num)
-        setSum(total)
-    },[products])
-
-    const deleteProduct = (id) =>{
-        let cart = products
-        cart.splice(id,1)
-        setProducts(cart)
-        sessionStorage.setItem('cart',JSON.stringify(cart))
-        window.location.replace('/cart')
-
-    }
+        setSum(total)  
+    },[])
 
     const logout = () =>{
         sessionStorage.clear();
@@ -47,48 +49,50 @@ function Cart() {
                     <Nav className="justify-content-end me-5">
                         <Nav.Link href="/dashboard">Menu</Nav.Link>
                         <Nav.Link href="/order">Order</Nav.Link>
-                        <Nav.Link className="cart-quantity" href="/cart">Cart<sup>{quantity}</sup></Nav.Link>
+                        <Nav.Link className="cart-quantity" href="/cart">Cart</Nav.Link>
+
                         <Nav.Link href="/profile">Profile</Nav.Link>
                         <Nav.Link onClick={logout}>Logout</Nav.Link>
                     </Nav>
                 </Container>
             </Navbar>
-            <div className="cart-table">
-                <Table variant="dark" bordered hover >
+            <h2>My Order</h2>
+
+            {products.map((pro,id)=>(
+
+                <div className="cart-table">
+                    <h3>Order No. {id+1}</h3>
+                <Table  variant="dark" bordered hover>
                     <thead>
                         <tr>
                             <th>Sr No.</th>
                             <th>Image</th>
                             <th>Name</th>
                             <th>Quantity</th>
-                            <th>Price</th>
-                            <th style={{textAlign:"center"}}>Action</th>
+                            <th>price</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {products.map((index,id)=>(
-                            <tr key={id}>
-                                <td>{id+1}</td>
-                                <td><img height="100" alt="img" src={index.image} /> </td>
-                                <td>{index.pname}</td>
-                                <td>{index.quantity}</td>
-                                <td>Rs.{index.price}</td>
-                                <td className="btn-cart-del"><button onClick={()=>deleteProduct(id)}>delete</button></td>
+                        {pro.map((inx,id)=>(
+                            <tr>
+                                <td>{id}</td>
+                                <td><img width="100" src={inx.image}/></td>
+                                <td>{inx.pname}</td>
+                                <td>{inx.quantity}</td>
+                                <td>{inx.price}</td>
                             </tr>
                         ))}
-                        
                     </tbody>
                 </Table>
-            </div>
-            <Card className="cart-checkout">
-                <Card.Body >
-                    <Card.Title>Total Price : Rs.{sum}</Card.Title>
-                    <button onClick={()=>{
-                        if(sum!==0){window.location.replace('/checkout')}
-                        else{ alert("Cart is empty")}
-                    }} className="ml-5" >Checkout</button>
-                </Card.Body>
-            </Card>
+
+                <Card>
+                    <Card.Body >
+                        <Card.Title>Total Price : Rs.{sum[id]}</Card.Title>
+                    </Card.Body>
+                </Card>
+                </div>
+            ))}
+
             <div className="footer">
                 <div className="footer-social">
                     <i className="fab fa-instagram"></i>
@@ -100,10 +104,8 @@ function Cart() {
                     <p>All Rights Reserved. Copyright &copy; Felix Mathew</p>
                 </div>
             </div>
-
-            
         </div>
     )
 }
 
-export default Cart
+export default Order

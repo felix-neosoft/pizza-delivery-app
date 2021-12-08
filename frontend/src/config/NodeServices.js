@@ -43,3 +43,7 @@ export function placeorder(data){
 export function deleteuser(data){
     return axios.post(`${MAIN_URL}/deleteuser`,data)
 }
+
+export function orderfetch(data){
+    return axios.post(`${MAIN_URL}/fetchorder`,data)
+}
