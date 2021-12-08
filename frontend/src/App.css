@@ -1,38 +1,226 @@
-.App {
+/* ----------Login Page & Register Page Css------------- */
+
+
+.pizza-wall-index{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  background-size: cover;
+}
+
+.index-logo{
+  width: 100px;
+  margin: 20px 0px 0px 50px;
+  position: absolute;
+}
+
+.index-form{
+  width: 30%;
+  margin: 0px auto ;
+  color: white;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.index-login{
+  padding-top: 150px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.index-register{
+  padding-top: 30px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.index-form h2{
+  margin: 10px 0px;
+}
+
+.pizza-sharing{
+  width: 400px;
+  height: 150px;
+}
+
+.form-insert{
+  text-align: left;
+}
+
+.btn-index-change{
+  color: white;
+  text-decoration: none;
+  position: absolute;
+  left: 35%;
+}
+
+.btn-index-change:hover{
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.btn-index-submit{
+    border: none;
+    background-color: tomato;
+    color: white;
+    padding: 2px 20px 5px;
+    font-size: 20px;
+    border-radius: 10px;
+    position: absolute;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.btn-login{
+  left: 59%;
+}
+
+.btn-register{
+  left: 58%;
+}
+
+.btn-index-submit:hover{
+  background-color: darkred;
+}
+
+
+/* ----------Dashboard Page CSS------------ */
+
+
+.dashboard-div{
+  background-color: rgb(206, 134, 132);
+}
+
+.cart-quantity sup{
+  background-color: grey;
+  color: black;
+  padding: 2px 5px;
+  border-radius: 10px;
+}
+
+.card-title{
+  text-align: center;
+}
+
+.card-price{
+  display: inline-flex;
+  margin-top: 10px;
+}
+.card-btn{
+  border: none;
+  background-color: tomato;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 10px;
+  float: right;
+  margin-top: 5px;
+}
+
+.card-btn:hover{
+  background-color: darkred;
+}
+
+.footer{
+  background-color: rgb(2, 2, 7);
+  height: 140px;
+  text-align: center;
+  color: white;
+  margin-top: 30px;
+}
+
+.footer-social{
+  padding-top: 10px;
+  font-size: 40px;
+}
+.footer-social i{
+  margin: 0px 20px;
+}
+
+.footer-ls{
+  padding-top: 30px;
+}
+
+/* ----------Cart Page CSS------------- */
+
+.cart-div{
+  background-color: rgb(206, 134, 132);
+}
+
+.cart-table{
+  width: 75%;
+  margin: 50px auto 0px;
+}
+
+.btn-cart-del{
+  text-align: center;
+}
+
+.btn-cart-del button{
+  border: none;
+  background-color: lightgreen;
+  border-radius: 10px;
+  padding: 5px 10px;
+}
+
+.btn-cart-del button:hover{
+  background-color: darkgreen;
+  color: white;
+}
+
+.cart-checkout{
+  width: 300px; 
+  margin-left: 75%;
+  margin-top: 30px;
+  margin-bottom: 300px;
+}
+
+.cart-checkout button{
+  float: right;
+  border:none;
+  background-color: black;
+  color: aliceblue;
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.cart-checkout button:hover{
+  background-color: grey;
+  color: black;
+}
+
+/* ---------------Checkout Page CSS-------------- */
+
+.checkout-div{
+  background-color: rgb(206, 134, 132);
+}
+
+.card-cardholder{
+  width: 50%;
+  margin: 50px auto;
+}
+
+.card-cardholder button{
+  border: none;
+  background-color: lightgreen;
+  border-radius: 10px;
+  padding: 5px 10px;
+  float: right;
+}
+
+.card-cardholder button:hover{
+  background-color: darkgreen;
+  color: white;
+}
+
+/* ----------Profile Page CSS------------- */
+
+.profile-table{
+  width: 50%;
+  margin: 50px auto 0px;
+}
+
+
+.btn-delete{
+  border: none;
+  background-color: tomato;
+  border-radius: 10px;
+  padding: 5px 10px;
+}
+
+.btn-delete:hover{
+  background-color: darkred;
+  color: white;
 }
