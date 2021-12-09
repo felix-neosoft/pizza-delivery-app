@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const Router = express.Router()
 const jwt = require('jsonwebtoken')
+const nodemailer = require('nodemailer')
 const jwtSecretKey = ':MQbA~22)r9"wnu+hlWw'
 
 
@@ -23,6 +24,17 @@ const connectDB = async() =>{
     }
 }
 connectDB()
+
+//nodemailer config
+
+const transporter = nodemailer.createTransport({
+    service:'gmail',
+    auth: {
+        user: 'relixmatrix@gmail.com',
+        pass: 'qwerty216@'
+    }
+});
+    
 
 //JWT Authentication
 function authenticateToken(req,res,next){
@@ -92,10 +104,57 @@ Router.post('/addcard',(req,res)=>{
 })
 
 Router.post('/orderplace',(req,res)=>{
+    let data = ''
+    req.body.order.forEach(ele =>{
+        data = data + (
+            `
+            <tr style="border: 1px solid black;">
+                <td>${ele.pname}</td>
+                <td style="text-align:center;">${ele.quantity}</td>
+                <td>${ele.price}</td>
+            </tr>
+            
+            `
+        )
+    })
+
     let ins = new orderModel({name:req.body.name,email:req.body.email,address:req.body.address,price:req.body.price,order:JSON.stringify(req.body.order)})
     ins.save(err =>{
         if(err) { res.json({"msg":"Order Failed"})}
-        else{ res.json({"msg":"Order Placed!!!"})}
+        else{ 
+
+            const options = {
+                from:'relixmatrix@gmail.com',
+                to:req.body.email,
+                subject:"Pizza Delivery Order Bill",
+                html:`
+                    <h2>Email: ${req.body.email}</h2>
+                    <h2>Address: ${req.body.address}</h2>
+                    <h2> Total Price: ${req.body.price}</h2>
+                    <table style="border: 1px solid black;">
+                        <thead>
+                            <tr style="border: 1px solid black;">
+                                <th>Name</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data}
+                        </tbody>
+                    </table>
+
+                `
+            }
+            transporter.sendMail(options,function(err,info){
+                if(err) console.log(err)
+                else{
+                    console.log(`Message sent to ${info.response}`)
+                }
+                
+            })
+            
+            res.json({"msg":"Order Placed!!!"})}
     })
 })
 
@@ -116,6 +175,24 @@ Router.post('/fetchorder',(req,res)=>{
         console.log(req.body.email)
         res.json({"data":data})
     })
+})
+
+Router.get('/testemail',(req,res)=>{
+    const options = {
+        from:'relixmatrix@gmail.com',
+        to:'holecara@tempmailin.com',
+        subject:"Hello",
+        text:"Heelo world",
+        html:"<b>My name is holle</b>"
+    }
+    transporter.sendMail(options,function(err,info){
+        if(err) console.log(err)
+        else{
+            res.send(`Message sent to ${info.response}`)
+        }
+        
+    })
+    
 })
 
 

@@ -18,6 +18,7 @@ function Order() {
         if(sessionStorage.getItem('_token')!==undefined){
             const token = sessionStorage.getItem('_token')
             const decode = jwt_decode(token)
+            console.log(decode)
             orderfetch({"email":decode.uid}).then(res =>{
                 const arr = []
                 const ps = []
@@ -27,6 +28,7 @@ function Order() {
                 })
                 setSum(ps)
                 setProducts(arr)
+                console.log(res.data.data)
             })
         } 
         let total = 0
@@ -34,6 +36,7 @@ function Order() {
             total = total + (index.quantity * index.price)
         })
         setSum(total)  
+        
     },[])
 
     const logout = () =>{
@@ -60,7 +63,7 @@ function Order() {
 
             {products.map((pro,id)=>(
 
-                <div className="cart-table">
+                <div key={id} className="cart-table">
                     <h3>Order No. {id+1}</h3>
                 <Table  variant="dark" bordered hover>
                     <thead>
@@ -75,7 +78,7 @@ function Order() {
                     <tbody>
                         {pro.map((inx,id)=>(
                             <tr>
-                                <td>{id}</td>
+                                <td>{id+1}</td>
                                 <td><img width="100" src={inx.image}/></td>
                                 <td>{inx.pname}</td>
                                 <td>{inx.quantity}</td>
